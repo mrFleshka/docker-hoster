@@ -7,7 +7,7 @@ hoster is intended to run in a Docker container:
     docker run -d \
         -v /var/run/docker.sock:/tmp/docker.sock \
         -v /etc/hosts:/tmp/hosts \
-        dvdarias/docker-hoster
+        mrfleshka/docker-hoster
 
 The `docker.sock` is mounted to allow hoster to listen for Docker events and automatically register containers IP.
 
@@ -74,7 +74,7 @@ networks:
 Wor windows run container like this:
 
 ```bash
-docker run -d --restart=always --name docker-hoster -v /var/run/docker.sock:/tmp/docker.sock -v /c/Windows/System32/drivers/etc/hosts:/tmp/hosts dvdarias/docker-hoster
+docker run -d --restart=always --name docker-hoster -v /var/run/docker.sock:/tmp/docker.sock -v /c/Windows/System32/drivers/etc/hosts:/tmp/hosts mrfleshka/docker-hoster
 ```
 
 You can use the `--restart=always` flag to automatically turn it on with docker restart.
@@ -94,7 +94,7 @@ You can add networks by name and domain masks as substring of domain.
 For test example:
 
 ```bash
-docker run -it --rm --name docker-hoster -v /var/run/docker.sock:/tmp/docker.sock -v /c/Windows/System32/drivers/etc/hosts:/tmp/hosts dvdarias/docker-hoster python -u hoster.py --networks dev-test dev-test2 --masks .test .local
+docker run -it --rm --name docker-hoster -v /var/run/docker.sock:/tmp/docker.sock -v /c/Windows/System32/drivers/etc/hosts:/tmp/hosts mrfleshka/docker-hoster python -u hoster.py --networks dev-test dev-test2 --masks .test .local
 ```
 
 And if `docker-compose up` for previous config, you will see next in your hosts:
