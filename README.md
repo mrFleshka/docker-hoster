@@ -1,3 +1,7 @@
+## This is temporary project. Waiting accept PR on [author repository](https://github.com/dvddarias/docker-hoster)
+
+---
+
 # Hoster
 
 A simple "etc/hosts" file injection tool to resolve names of local Docker containers on the host.
