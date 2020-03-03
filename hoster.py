@@ -10,6 +10,7 @@ import os
 label_name = "hoster.domains"
 enclosing_pattern = "#-----------Docker-Hoster-Domains----------\n"
 hosts_path = "/tmp/hosts"
+proxy_ip = "127.0.0.1"
 hosts = {}
 networks = []
 masks = []
@@ -32,6 +33,8 @@ def main():
     networks = args.networks
     global masks
     masks = args.masks
+    global proxy_ip
+    proxy_ip = args.proxy_ip
 
     dockerClient = docker.APIClient(base_url='unix://%s' % args.socket)
     events = dockerClient.events(decode=True)
@@ -72,7 +75,8 @@ def add_domains_with_filtering(result, ip, name, domains):
         domains = filtered_domains
     if domains:
         result.append({
-            "ip": ip,
+            #"ip": ip,
+            "ip": proxy_ip,
             "name": name,
             "domains": domains
         })
@@ -138,7 +142,7 @@ def update_hosts_file():
     for i,line in enumerate(lines):
         if line==enclosing_pattern:
             lines = lines[:i]
-            break;
+            break
 
     #remove all the trailing newlines on the line list
     while lines[-1].strip()=="": lines.pop()
@@ -166,10 +170,10 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Synchronize running docker container IPs with host /etc/hosts file.')
     parser.add_argument('socket', type=str, nargs="?", default="/tmp/docker.sock", help='The docker socket to listen for docker events.')
     parser.add_argument('file', type=str, nargs="?", default="/tmp/hosts", help='The /etc/hosts file to sync the containers with.')
+    parser.add_argument('--proxy_ip', type=str, nargs="?", default="127.0.0.1", help='Proxy IP for NAT.')
     parser.add_argument('--networks', type=str, nargs="*", default=None, help='Manage aliases only for this docker network name.')
     parser.add_argument('--masks', type=str, nargs="*", default=None, help='Mask for filtering aliases')
     return parser.parse_args()
 
 if __name__ == '__main__':
     main()
-
